@@ -3,10 +3,7 @@ package hello;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseCredentials;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +43,15 @@ public class GreetingController {
                 Object document = dataSnapshot.getValue();
                 System.out.println(document);
             }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("onCancelled");
+                System.out.println(databaseError);
+            }
         });
+
+        ref.setValue("asd");
         return "result";
     }
 
