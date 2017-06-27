@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @Controller
 public class GreetingController {
+    DatabaseReference ref;
 
     @GetMapping("/greeting")
     public String greetingForm(Model model) {
@@ -25,33 +26,11 @@ public class GreetingController {
 
     @PostMapping("/greeting")
     public String greetingSubmit(@ModelAttribute Greeting greeting) throws IOException {
-        FileInputStream serviceAccount = new FileInputStream("C:/Users/ABrownApple/Downloads/yesno-2dbf9-firebase-adminsdk-2n3pj-c66cce13c7.json");
-
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-                .setDatabaseUrl("https://yesno-2dbf9.firebaseio.com/")
-                .build();
-
-        FirebaseApp.initializeApp(options);
-
-        DatabaseReference ref = FirebaseDatabase
-                .getInstance()
-                .getReference("restricted_access/secret_document");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object document = dataSnapshot.getValue();
-                System.out.println(document);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("onCancelled");
-                System.out.println(databaseError);
-            }
-        });
-
-        ref.setValue("asd");
+        if(ref == null){
+            FireBase fireBase = new FireBase();
+            ref = fireBase.getRef();
+        }
+        ref.setValue(greeting.getContent());
         return "result";
     }
 
