@@ -2,14 +2,14 @@ package hello;
 
 public class Greeting {
 
-    private long name;
+    private String name;
     private String content;
 
-    public long getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(long Name) {
+    public void setName(String name) {
         this.name = name;
     }
 
