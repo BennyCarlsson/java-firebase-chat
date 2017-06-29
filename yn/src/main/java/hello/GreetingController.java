@@ -24,7 +24,8 @@ public class GreetingController {
             ref = fireBase.getRef();
         }
         DatabaseReference refMessages = ref.child("messages");
-        refMessages.setValue(greeting);
+        DatabaseReference pushRef = refMessages.push();
+        pushRef.setValue(greeting);
         return "result";
     }
 
