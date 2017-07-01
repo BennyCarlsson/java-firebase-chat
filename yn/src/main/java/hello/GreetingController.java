@@ -6,18 +6,44 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class GreetingController {
     DatabaseReference ref;
 
-    @GetMapping("/greeting")
-    public String greetingForm(Model model) {
+    @GetMapping("/")
+    public String greetingForm(Model model) throws IOException {
         model.addAttribute("greeting", new Greeting());
-        return "greeting";
+        if(ref == null){
+            FireBase fireBase = new FireBase();
+            ref = fireBase.getRef();
+        }
+        DatabaseReference refMessages = ref.child("messages");
+        List<Post> posts = new ArrayList<>();
+        refMessages.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                posts.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Post post = snapshot.getValue(Post.class);
+                    posts.add(post);
+                }
+
+                //Post post = dataSnapshot.getValue(Post.class);
+                //System.out.println(post);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+        return "index";
     }
 
-    @PostMapping("/greeting")
+    @PostMapping("/")
     public String greetingSubmit(@ModelAttribute Greeting greeting) throws IOException {
         if(ref == null){
             FireBase fireBase = new FireBase();
@@ -26,7 +52,7 @@ public class GreetingController {
         DatabaseReference refMessages = ref.child("messages");
         DatabaseReference pushRef = refMessages.push();
         pushRef.setValue(greeting);
-        return "result";
+        return "index";
     }
 
 }
