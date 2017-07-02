@@ -22,6 +22,10 @@ public class GreetingController {
         }
         DatabaseReference refMessages = ref.child("messages");
         List<Post> posts = new ArrayList<>();
+        posts.add(new Post("asd","asd"));
+        posts.add(new Post("asd","asd"));
+        posts.add(new Post("asd","asd"));
+        model.addAttribute("posts",posts);
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -30,7 +34,7 @@ public class GreetingController {
                     Post post = snapshot.getValue(Post.class);
                     posts.add(post);
                 }
-
+                model.addAttribute("posts",posts);
                 //Post post = dataSnapshot.getValue(Post.class);
                 //System.out.println(post);
             }
@@ -54,5 +58,4 @@ public class GreetingController {
         pushRef.setValue(greeting);
         return "index";
     }
-
 }
