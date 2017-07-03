@@ -12,11 +12,12 @@
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 <div>
-    <tr th:each="post: ${posts}">
-        <td th:text="${post.name}">Oranges</td>
-    </tr>
-    <p>Message: </p>
-    <p>-</p>
+    <div th:each="post: ${posts}">
+        <p>Message: <span th:text="${post.content}"></span></p>
+        <p>- <span th:text="${post.name}"></span></p>
+    </div>
+
+
 </div>
 </body>
 </html>

@@ -22,9 +22,9 @@ public class GreetingController {
         }
         DatabaseReference refMessages = ref.child("messages");
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post("asd","asd"));
-        posts.add(new Post("asd","asd"));
-        posts.add(new Post("asd","asd"));
+        posts.add(new Post("Benny","asd"));
+        posts.add(new Post("Benny","asd"));
+        posts.add(new Post("Benny","asd"));
         model.addAttribute("posts",posts);
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override
