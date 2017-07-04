@@ -12,7 +12,7 @@ import java.util.List;
 @Controller
 public class GreetingController {
     DatabaseReference ref;
-
+    List<Post> posts = new ArrayList<>();
     @GetMapping("/")
     public String greetingForm(Model model) throws IOException {
         model.addAttribute("greeting", new Greeting());
@@ -21,10 +21,9 @@ public class GreetingController {
             ref = fireBase.getRef();
         }
         DatabaseReference refMessages = ref.child("messages");
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post("Benny","asd"));
-        posts.add(new Post("Benny","asd"));
-        posts.add(new Post("Benny","asd"));
+        posts.add(new Post("TestName","test"));
+        posts.add(new Post("TestName","test"));
+        posts.add(new Post("TestName","test"));
         model.addAttribute("posts",posts);
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override

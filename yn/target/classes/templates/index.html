@@ -14,7 +14,7 @@
 <div>
     <div th:each="post: ${posts}">
         <p>Message: <span th:text="${post.content}"></span></p>
-        <p>- <span th:text="${post.content}"></span></p>
+        <p>- <span th:text="${post.name}"></span></p>
     </div>
 
 
