@@ -1,5 +1,8 @@
 package hello;
 import com.google.firebase.database.*;
+import javafx.geometry.Pos;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +16,17 @@ import java.util.List;
 public class GreetingController {
     DatabaseReference ref;
     List<Post> posts = new ArrayList<>();
+
     @GetMapping("/")
-    public String greetingForm(Model model) throws IOException {
+    public String start(Model model){
         model.addAttribute("greeting", new Greeting());
+        return "index";
+    }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public List<Post> greeting(HelloMessage message) throws IOException {
+        //model.addAttribute("greeting", new Greeting());
         if(ref == null){
             FireBase fireBase = new FireBase();
             ref = fireBase.getRef();
@@ -24,7 +35,7 @@ public class GreetingController {
         posts.add(new Post("TestName","test"));
         posts.add(new Post("TestName","test"));
         posts.add(new Post("TestName","test"));
-        model.addAttribute("posts",posts);
+        //model.addAttribute("posts",posts);
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -33,7 +44,7 @@ public class GreetingController {
                     Post post = snapshot.getValue(Post.class);
                     posts.add(post);
                 }
-                model.addAttribute("posts",posts);
+                //model.addAttribute("posts",posts);
                 //Post post = dataSnapshot.getValue(Post.class);
                 //System.out.println(post);
             }
@@ -43,7 +54,7 @@ public class GreetingController {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-        return "index";
+        return posts;
     }
 
     @PostMapping("/")
