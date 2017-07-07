@@ -25,7 +25,7 @@ public class GreetingController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public List<Post> greeting(HelloMessage message) throws IOException {
+    public Greeting greeting(HelloMessage message) throws IOException {
         //model.addAttribute("greeting", new Greeting());
         if(ref == null){
             FireBase fireBase = new FireBase();
@@ -54,7 +54,7 @@ public class GreetingController {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-        return posts;
+        return new Greeting("hi asd");
     }
 
     @PostMapping("/")
