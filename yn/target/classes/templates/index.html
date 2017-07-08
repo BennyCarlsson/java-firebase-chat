@@ -13,9 +13,9 @@
 <body>
 <h1>Form</h1>
 <form action="#" th:action="@{/}" th:object="${greeting}" method="post">
-    <p>Name: <input type="text" th:field="*{name}" /></p>
-    <p>Message: <input type="text" th:field="*{content}" /></p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    <p>Name: <input id="dbName" type="text" th:field="*{name}" /></p>
+    <p>Message: <input id="dbContent" type="text" th:field="*{content}" /></p>
+    <p><button id="saveDB" class="btn btn-default" type="submit" value="Submit">Send</button> <input type="reset" value="Reset" /></p>
 </form>
 <div>
     <div th:each="post: ${posts}">

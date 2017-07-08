@@ -1,6 +1,7 @@
 package hello;
 import com.google.firebase.database.*;
 import javafx.geometry.Pos;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -11,16 +12,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Controller
 public class GreetingController {
     DatabaseReference ref;
     List<Post> posts = new ArrayList<>();
+    @Autowired
+    private SimpMessagingTemplate broker;
+
+    @Autowired
+    public GreetingController(final SimpMessagingTemplate broker) {
+        this.broker = broker;
+    }
 
     @GetMapping("/")
     public String start(Model model){
         model.addAttribute("greeting", new Greeting());
         return "index";
+    }
+
+    @MessageMapping("/saveDB")
+    public void saveDB(Greeting greeting){
+        System.out.print(greeting.getName());
+        broker.convertAndSend("/topic/greetings",new Greeting("test"));
     }
 
     @MessageMapping("/hello")

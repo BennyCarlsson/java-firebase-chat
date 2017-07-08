@@ -35,6 +35,9 @@ function disconnect() {
 function sendName() {
     stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
 }
+function sendDB() {
+    stompClient.send("/app/saveDB", {}, JSON.stringify({'name': $("#dbName").val(), 'content': $("#dbContent").val()}));
+}
 
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
@@ -47,4 +50,5 @@ $(function () {
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
+    $( "#saveDB" ).click(function() { sendDB(); });
 });
