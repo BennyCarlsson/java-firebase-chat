@@ -52,3 +52,4 @@ $(function () {
     $( "#send" ).click(function() { sendName(); });
     $( "#saveDB" ).click(function() { sendDB(); });
 });
+window.onload = connect();
