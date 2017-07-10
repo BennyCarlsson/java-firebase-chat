@@ -63,3 +63,5 @@ atlassian-ide-plugin.xml
 .gradletasknamecache
 .idea/workspace.xml
 .target
+target/maven-archiver/pom.properties
+target/gs-handling-form-submission-0.1.0.jar.original

@@ -8,14 +8,18 @@ function connect() {
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
-        stompClient.subscribe('/topic/posts', function (post) {
-                    var obj = JSON.parse(post.body)
+        stompClient.subscribe('/topic/greetingList', function (greetings) {
+                    var obj = JSON.parse(greetings.body)
                     for(var key in obj){
                         showGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
                     }
         });
+        startFirebaseListener();
     });
 }
+function startFirebaseListener(){
+    stompClient.send("/app/firebaselistener")
+};
 function sendName() {
     stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
 }

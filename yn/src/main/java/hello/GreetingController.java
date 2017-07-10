@@ -17,7 +17,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 @Controller
 public class GreetingController {
     DatabaseReference ref;
-    List<Post> posts = new ArrayList<>();
     @Autowired
     private SimpMessagingTemplate broker;
 
@@ -47,9 +46,8 @@ public class GreetingController {
         posts.add(new Post("post3","content3"));
         broker.convertAndSend("/topic/posts",posts);*/
     }
-
-    @MessageMapping("/hello")
-    public Greeting greeting(HelloMessage message) throws IOException {
+    @MessageMapping("firebaselistener")
+    public void firebaseListener() throws IOException {
         if(ref == null){
             FireBase fireBase = new FireBase();
             ref = fireBase.getRef();
@@ -58,19 +56,21 @@ public class GreetingController {
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                posts.clear();
+                List<Greeting> greetings = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Post post = snapshot.getValue(Post.class);
-                    posts.add(post);
-                    broker.convertAndSend("/topic/greetings",new Greeting(post.getContent()));
+                    Greeting greeting = snapshot.getValue(Greeting.class);
+                    greetings.add(greeting);
                 }
+                broker.convertAndSend("/topic/greetingList",greetings);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+    @MessageMapping("/hello")
+    public Greeting greeting(HelloMessage message) throws IOException {
         return new Greeting("hi asd");
     }
 
