@@ -33,24 +33,28 @@ public class GreetingController {
     }
 
     @MessageMapping("/saveDB")
-    public void saveDB(Greeting greeting){
-        System.out.print(greeting.getName());
-        broker.convertAndSend("/topic/greetings",new Greeting("test"));
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws IOException {
-        //model.addAttribute("greeting", new Greeting());
+    public void saveDB(Greeting greeting) throws IOException {
         if(ref == null){
             FireBase fireBase = new FireBase();
             ref = fireBase.getRef();
         }
         DatabaseReference refMessages = ref.child("messages");
-        posts.add(new Post("TestName","test"));
-        posts.add(new Post("TestName","test"));
-        posts.add(new Post("TestName","test"));
-        //model.addAttribute("posts",posts);
+        DatabaseReference pushRef = refMessages.push();
+        pushRef.setValue(greeting);
+        /*List<Post> posts = new ArrayList<>();
+        posts.add(new Post("post1","content1"));
+        posts.add(new Post("post2","content2"));
+        posts.add(new Post("post3","content3"));
+        broker.convertAndSend("/topic/posts",posts);*/
+    }
+
+    @MessageMapping("/hello")
+    public Greeting greeting(HelloMessage message) throws IOException {
+        if(ref == null){
+            FireBase fireBase = new FireBase();
+            ref = fireBase.getRef();
+        }
+        DatabaseReference refMessages = ref.child("messages");
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -58,10 +62,8 @@ public class GreetingController {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Post post = snapshot.getValue(Post.class);
                     posts.add(post);
+                    broker.convertAndSend("/topic/greetings",new Greeting(post.getContent()));
                 }
-                //model.addAttribute("posts",posts);
-                //Post post = dataSnapshot.getValue(Post.class);
-                //System.out.println(post);
             }
 
             @Override
@@ -72,15 +74,10 @@ public class GreetingController {
         return new Greeting("hi asd");
     }
 
+    /*
     @PostMapping("/")
     public String greetingSubmit(@ModelAttribute Greeting greeting) throws IOException {
-        if(ref == null){
-            FireBase fireBase = new FireBase();
-            ref = fireBase.getRef();
-        }
-        DatabaseReference refMessages = ref.child("messages");
-        DatabaseReference pushRef = refMessages.push();
-        pushRef.setValue(greeting);
         return "index";
     }
+    */
 }
