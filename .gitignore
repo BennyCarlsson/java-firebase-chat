@@ -67,3 +67,19 @@ target/maven-archiver/pom.properties
 target/gs-handling-form-submission-0.1.0.jar.original
 */target/*
 */target/**
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/

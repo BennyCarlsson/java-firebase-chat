@@ -11,28 +11,13 @@
     <script src="/app.js"></script>
 </head>
 <body>
-<h1>Form</h1>
-<form action="#" th:action="@{/}" th:object="${greeting}" method="post">
-    <p>Name: <input id="dbName" type="text" th:field="*{name}" /></p>
-    <p>Message: <input id="dbContent" type="text" th:field="*{content}" /></p>
-    <p><button id="saveDB" class="btn btn-default" type="submit" value="Submit">Send</button> <input type="reset" value="Reset" /></p>
-</form>
-<div>
-    <div th:each="post: ${posts}">
-        <p>Message: <span th:text="${post.content}"></span></p>
-        <p>- <span th:text="${post.name}"></span></p>
-    </div>
-
-</div>
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here..."/>
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
+            <form action="#" th:action="@{/}" th:object="${greeting}" method="post">
+                <p>Name: <input id="dbName" type="text" th:field="*{name}" /></p>
+                <p>Message: <input id="dbContent" type="text" th:field="*{content}" /></p>
+                <p><button id="saveDB" class="btn btn-default" type="submit" value="Submit">Send</button> <input class="btn btn-default" type="reset" value="Reset" /></p>
             </form>
         </div>
     </div>

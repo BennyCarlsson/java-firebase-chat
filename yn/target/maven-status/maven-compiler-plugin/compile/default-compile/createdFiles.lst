@@ -1,8 +1,6 @@
 hello\FireBase$1.class
-hello\HelloMessage.class
 hello\FireBase.class
 hello\GreetingController.class
-hello\Post.class
 hello\WebSocketConfig.class
 hello\Application.class
 hello\Greeting.class

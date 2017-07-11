@@ -1,18 +1,18 @@
 package hello;
-import com.google.firebase.database.*;
-import javafx.geometry.Pos;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Controller
 public class GreetingController {
@@ -40,11 +40,6 @@ public class GreetingController {
         DatabaseReference refMessages = ref.child("messages");
         DatabaseReference pushRef = refMessages.push();
         pushRef.setValue(greeting);
-        /*List<Post> posts = new ArrayList<>();
-        posts.add(new Post("post1","content1"));
-        posts.add(new Post("post2","content2"));
-        posts.add(new Post("post3","content3"));
-        broker.convertAndSend("/topic/posts",posts);*/
     }
     @MessageMapping("firebaselistener")
     public void firebaseListener() throws IOException {
@@ -69,15 +64,4 @@ public class GreetingController {
             }
         });
     }
-    @MessageMapping("/hello")
-    public Greeting greeting(HelloMessage message) throws IOException {
-        return new Greeting("hi asd");
-    }
-
-    /*
-    @PostMapping("/")
-    public String greetingSubmit(@ModelAttribute Greeting greeting) throws IOException {
-        return "index";
-    }
-    */
 }
