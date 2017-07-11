@@ -10,6 +10,7 @@ function connect() {
         });
         stompClient.subscribe('/topic/greetingList', function (greetings) {
                     var obj = JSON.parse(greetings.body)
+                    clearChatList();
                     for(var key in obj){
                         showGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
                     }
@@ -25,6 +26,9 @@ function sendName() {
 }
 function sendDB() {
     stompClient.send("/app/saveDB", {}, JSON.stringify({'name': $("#dbName").val(), 'content': $("#dbContent").val()}));
+}
+function clearChatList(){
+    $("#greetings").empty();
 }
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
