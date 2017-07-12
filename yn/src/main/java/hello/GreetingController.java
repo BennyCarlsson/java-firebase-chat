@@ -16,13 +16,17 @@ import java.util.List;
 
 @Controller
 public class GreetingController {
-    DatabaseReference ref;
     @Autowired
     private SimpMessagingTemplate broker;
+    @Autowired
+    private FireBase fireBase;
+    DatabaseReference ref;
 
     @Autowired
-    public GreetingController(final SimpMessagingTemplate broker) {
+    public GreetingController(final SimpMessagingTemplate broker, FireBase fireBase) {
         this.broker = broker;
+        this.fireBase = fireBase;
+        ref = fireBase.getRef();
     }
 
     @GetMapping("/")
@@ -33,20 +37,12 @@ public class GreetingController {
 
     @MessageMapping("/saveDB")
     public void saveDB(Greeting greeting) throws IOException {
-        if(ref == null){
-            FireBase fireBase = new FireBase();
-            ref = fireBase.getRef();
-        }
         DatabaseReference refMessages = ref.child("messages");
         DatabaseReference pushRef = refMessages.push();
         pushRef.setValue(greeting);
     }
     @MessageMapping("firebaselistener")
     public void firebaseListener() throws IOException {
-        if(ref == null){
-            FireBase fireBase = new FireBase();
-            ref = fireBase.getRef();
-        }
         DatabaseReference refMessages = ref.child("messages");
         refMessages.addValueEventListener(new ValueEventListener() {
             @Override
