@@ -15,7 +15,11 @@ function connect() {
     });
 }
 function startFirebaseListener(){
-    stompClient.send("/app/firebaselistener")
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+      stompClient.send("/app/firebaselistener",{},JSON.stringify({'idToken':idToken}));
+    }).catch(function(error) {
+      // Handle error
+    });
 };
 function sendDB() {
     stompClient.send("/app/saveDB", {}, JSON.stringify({'name': $("#dbName").val(), 'content': $("#dbContent").val()}));
@@ -35,7 +39,6 @@ $(function () {
 });
 function firebaseGmailLogin(){
 // Initialize Firebase
-  // TODO: Replace with your project's customized code snippet
   var config = {
     apiKey: "AIzaSyCZKQQT1l3tF7IW3JycMsYIYpSc2-b_u98",
     authDomain: "yesno-2dbf9.firebaseapp.com",
