@@ -3,12 +3,16 @@ package hello;
 public class Greeting {
     private String name;
     private String content;
+    private String idToken;
+    //Todo: idToken and name exist in user object greeting shousld reference user insted!
 
     public Greeting() {
     }
 
-    public Greeting(String content) {
+    public Greeting(String name,String content,String idToken) {
+        this.name = name;
         this.content = content;
+        this.idToken = idToken;
     }
 
     public String getName() {
@@ -27,4 +31,11 @@ public class Greeting {
         this.content = content;
     }
 
+    public String getIdToken() {
+        return idToken;
+    }
+
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
+    }
 }

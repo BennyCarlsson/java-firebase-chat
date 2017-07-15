@@ -44,14 +44,15 @@ public class GreetingController {
         DatabaseReference refMessages = ref.child("messages");
         DatabaseReference pushRef = refMessages.push();
         pushRef.setValue(greeting);
+        //greeting now have the idToken use this to get username and uid
     }
     @MessageMapping("firebaselistener")
     public void firebaseListener(User user) throws IOException {
         FirebaseAuth.getInstance().verifyIdToken(user.getIdToken())
                 .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
                     @Override
-                    public void onSuccess(FirebaseToken decodedToken) {
-                        String uid = decodedToken.getUid();
+                    public void onSuccess(FirebaseToken firebaseToken) {
+                        //String uid = firebaseToken.getUid();
                         DatabaseReference refMessages = ref.child("messages");
                         refMessages.addValueEventListener(new ValueEventListener() {
                             @Override

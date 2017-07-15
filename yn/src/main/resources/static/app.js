@@ -1,6 +1,9 @@
 var stompClient = null;
 
 function connect() {
+    //tells stomp.js to shut up in the console.
+    //stompClient.debug = null
+
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -14,15 +17,19 @@ function connect() {
         startFirebaseListener();
     });
 }
+var idToken;
 function startFirebaseListener(){
     firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
       stompClient.send("/app/firebaselistener",{},JSON.stringify({'idToken':idToken}));
+      this.idToken = idToken;
     }).catch(function(error) {
       // Handle error
     });
 };
 function sendDB() {
-    stompClient.send("/app/saveDB", {}, JSON.stringify({'name': $("#dbName").val(), 'content': $("#dbContent").val()}));
+    stompClient.send("/app/saveDB", {}, JSON.stringify({'name': ""
+        ,'content': $("#dbContent").val()
+        ,'idToken': this.idToken}));
 }
 function clearChatList(){
     $("#greetings").empty();
