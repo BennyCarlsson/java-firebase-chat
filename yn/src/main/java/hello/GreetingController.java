@@ -5,8 +5,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.tasks.OnFailureListener;
-import com.google.firebase.tasks.OnSuccessListener;
+import com.google.firebase.tasks.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 public class GreetingController {
@@ -41,10 +41,18 @@ public class GreetingController {
 
     @MessageMapping("/saveDB")
     public void saveDB(Greeting greeting) throws IOException {
+        //greeting now have the idToken use this to get username and uid
+        Task<FirebaseToken> authTask = FirebaseAuth.getInstance().verifyIdToken(greeting.getIdToken());
+        try {Tasks.await(authTask);}
+        catch(ExecutionException | InterruptedException e ){ System.out.print(e);}
+        FirebaseToken decodedToken = authTask.getResult();
+        greeting.setName(decodedToken.getName());
+        greeting.setIdToken(decodedToken.getUid());
         DatabaseReference refMessages = ref.child("messages");
         DatabaseReference pushRef = refMessages.push();
         pushRef.setValue(greeting);
-        //greeting now have the idToken use this to get username and uid
+
+
     }
     @MessageMapping("firebaselistener")
     public void firebaseListener(User user) throws IOException {
