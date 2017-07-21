@@ -4,7 +4,7 @@ public class Greeting {
     private String name;
     private String content;
     private String idToken;
-    //Todo: idToken and name exist in user object greeting shousld reference user insted!
+    //Todo: idToken and name exist in user object greeting should reference user instead!
 
     public Greeting() {
     }

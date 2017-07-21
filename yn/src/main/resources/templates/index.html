@@ -16,7 +16,6 @@
     <div class="row">
         <div class="col-md-6">
             <form action="#" th:action="@{/}" th:object="${greeting}" method="post">
-                <p>Name: <input id="dbName" type="text" th:field="*{name}" /></p>
                 <p>Message: <input id="dbContent" type="text" th:field="*{content}" /></p>
                 <p><button id="saveDB" class="btn btn-default" type="submit" value="Submit">Send</button> <input class="btn btn-default" type="reset" value="Reset" /></p>
             </form>
