@@ -43,7 +43,11 @@ $(function () {
         e.preventDefault();
     });
     $( "#saveDB" ).click(function() { sendDB(); });
+    $( "#logoutButton" ).click(function() { logout(); });
 });
+function logout(){
+    firebase.auth().signOut();
+}
 function firebaseGmailLogin(){
 // Initialize Firebase
   var config = {
