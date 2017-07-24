@@ -60,7 +60,7 @@ public class GreetingController {
                 .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
                     @Override
                     public void onSuccess(FirebaseToken firebaseToken) {
-                        //String uid = firebaseToken.getUid();
+                        String uid = firebaseToken.getUid();
                         DatabaseReference refMessages = ref.child("messages");
                         refMessages.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -68,6 +68,11 @@ public class GreetingController {
                                 List<Greeting> greetings = new ArrayList<>();
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     Greeting greeting = snapshot.getValue(Greeting.class);
+                                    if(greeting.getIdToken().equals(uid)){
+                                        greeting.setCurrentUsersGreeting(true);
+                                    }else{
+                                        greeting.setCurrentUsersGreeting(false);
+                                    }
                                     greetings.add(greeting);
                                 }
                                 broker.convertAndSend("/topic/greetingList",greetings);

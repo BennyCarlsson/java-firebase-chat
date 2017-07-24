@@ -11,7 +11,11 @@ function connect() {
                     var obj = JSON.parse(greetings.body)
                     clearChatList();
                     for(var key in obj){
-                        showGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
+                        if(obj[key].currentUsersGreeting){
+                            showYourGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
+                        }else{
+                            showGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
+                        }
                     }
         });
         startFirebaseListener();
@@ -36,6 +40,9 @@ function clearChatList(){
 }
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+function showYourGreeting(message) {
+    $("#greetings").append("<tr class='myChatMessage'><td>" + message + "</td></tr>");
 }
 
 $(function () {
