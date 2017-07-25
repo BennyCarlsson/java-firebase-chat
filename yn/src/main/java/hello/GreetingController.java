@@ -35,22 +35,22 @@ public class GreetingController {
 
     @GetMapping("/")
     public String start(Model model){
-        model.addAttribute("greeting", new Greeting());
+        model.addAttribute("chatmessage", new ChatMessage());
         return "index";
     }
 
     @MessageMapping("/saveDB")
-    public void saveDB(Greeting greeting) throws IOException {
-        //greeting now have the idToken use this to get username and uid
-        Task<FirebaseToken> authTask = FirebaseAuth.getInstance().verifyIdToken(greeting.getIdToken());
+    public void saveDB(ChatMessage chatMessage) throws IOException {
+        //chatMessage now have the idToken use this to get username and uid
+        Task<FirebaseToken> authTask = FirebaseAuth.getInstance().verifyIdToken(chatMessage.getIdToken());
         try {Tasks.await(authTask);}
         catch(ExecutionException | InterruptedException e ){ System.out.print(e);}
         FirebaseToken decodedToken = authTask.getResult();
-        greeting.setName(decodedToken.getName());
-        greeting.setIdToken(decodedToken.getUid());
+        chatMessage.setName(decodedToken.getName());
+        chatMessage.setIdToken(decodedToken.getUid());
         DatabaseReference refMessages = ref.child("messages");
         DatabaseReference pushRef = refMessages.push();
-        pushRef.setValue(greeting);
+        pushRef.setValue(chatMessage);
 
 
     }
@@ -65,17 +65,17 @@ public class GreetingController {
                         refMessages.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                List<Greeting> greetings = new ArrayList<>();
+                                List<ChatMessage> chatMessages = new ArrayList<>();
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    Greeting greeting = snapshot.getValue(Greeting.class);
-                                    if(greeting.getIdToken().equals(uid)){
-                                        greeting.setCurrentUsersGreeting(true);
+                                    ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
+                                    if(chatMessage.getIdToken().equals(uid)){
+                                        chatMessage.setCurrentUsersGreeting(true);
                                     }else{
-                                        greeting.setCurrentUsersGreeting(false);
+                                        chatMessage.setCurrentUsersGreeting(false);
                                     }
-                                    greetings.add(greeting);
+                                    chatMessages.add(chatMessage);
                                 }
-                                broker.convertAndSend("/topic/greetingList",greetings);
+                                broker.convertAndSend("/topic/greetingList", chatMessages);
                             }
                             @Override
                             public void onCancelled(DatabaseError databaseError) {

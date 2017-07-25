@@ -1,16 +1,16 @@
 package hello;
 
-public class Greeting {
+public class ChatMessage {
     private String name;
     private String content;
     private String idToken;
     private boolean currentUsersGreeting;
     //Todo: idToken and name exist in user object greeting should reference user instead!
 
-    public Greeting() {
+    public ChatMessage() {
     }
 
-    public Greeting(String name,String content,String idToken, boolean currentUsersGreeting) {
+    public ChatMessage(String name, String content, String idToken, boolean currentUsersGreeting) {
         this.name = name;
         this.content = content;
         this.idToken = idToken;
