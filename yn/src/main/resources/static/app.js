@@ -12,9 +12,9 @@ function connect() {
                     clearChatList();
                     for(var key in obj){
                         if(obj[key].currentUsersGreeting){
-                            showYourGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
+                            showYourGreeting(obj[key]);
                         }else{
-                            showGreeting("Name: "+obj[key].name + " Content: "+obj[key].content);
+                            showGreeting(obj[key]);
                         }
                     }
         });
@@ -38,11 +38,11 @@ function sendDB() {
 function clearChatList(){
     $("#greetings").empty();
 }
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showGreeting(obj) {
+    $("#greetings").append("<tr><td>" + obj.name + ": " + " Content: "+obj.content + "</td></tr>");
 }
-function showYourGreeting(message) {
-    $("#greetings").append("<tr class='myChatMessage'><td>" + message + "</td></tr>");
+function showYourGreeting(obj) {
+    $("#greetings").append("<tr class='myChatMessage'><td>" + "You: " + obj.content + "</td></tr>");
 }
 
 $(function () {
