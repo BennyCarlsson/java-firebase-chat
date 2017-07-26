@@ -2,7 +2,7 @@ var stompClient = null;
 
 function connect() {
     //tells stomp.js to shut up in the console.
-    //stompClient.debug = null
+    stompClient.debug = null
 
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);

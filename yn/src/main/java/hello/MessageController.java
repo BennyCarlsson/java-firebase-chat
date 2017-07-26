@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Controller
-public class GreetingController {
+public class MessageController {
     @Autowired
     private SimpMessagingTemplate broker;
     @Autowired
@@ -27,7 +27,7 @@ public class GreetingController {
     DatabaseReference ref;
 
     @Autowired
-    public GreetingController(final SimpMessagingTemplate broker, FireBase fireBase) {
+    public MessageController(final SimpMessagingTemplate broker, FireBase fireBase) {
         this.broker = broker;
         this.fireBase = fireBase;
         ref = fireBase.getRef();
