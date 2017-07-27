@@ -2,7 +2,7 @@ package hello;
 
 public class ChatMessage {
     private String content;
-    private User user;
+    private User user = new User();
     private boolean currentUsersMessage;
     //Todo: idToken and name exist in user object greeting should reference user instead!
 
