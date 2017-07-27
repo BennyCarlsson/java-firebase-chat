@@ -2,16 +2,17 @@ var stompClient = null;
 
 function connect() {
     //tells stomp.js to shut up in the console.
-    //stompClient.debug = null
+    //
 
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/greetingList', function (greetings) {
                     var obj = JSON.parse(greetings.body)
                     clearChatList();
                     for(var key in obj){
-                        if(obj[key].currentUsersGreeting){
+                        if(obj[key].currentUsersMessage){
                             showYourGreeting(obj[key]);
                         }else{
                             showGreeting(obj[key]);
@@ -42,7 +43,7 @@ function showGreeting(obj) {
     $("#greetings").append("<tr><td>" +obj.name + ": " + " Content: "+obj.content + "</td></tr>");
 }
 function showYourGreeting(obj) {
-    $("#greetings").append("<tr class='myChatMessage'><td>" + obj.content + " /you" + "</td></tr>");
+    $("#greetings").append("<tr class='myChatMessage'><td>" + "You: " + obj.content + "</td></tr>");
 }
 
 $(function () {
