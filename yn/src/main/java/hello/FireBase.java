@@ -36,7 +36,6 @@ public class FireBase {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object document = dataSnapshot.getValue();
-                System.out.println(document);
             }
 
             @Override

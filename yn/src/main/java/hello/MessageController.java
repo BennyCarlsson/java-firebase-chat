@@ -69,9 +69,9 @@ public class MessageController {
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                                     if(chatMessage.getIdToken().equals(uid)){
-                                        chatMessage.setCurrentUsersGreeting(true);
+                                        chatMessage.setCurrentUsersMessage(true);
                                     }else{
-                                        chatMessage.setCurrentUsersGreeting(false);
+                                        chatMessage.setCurrentUsersMessage(false);
                                     }
                                     chatMessages.add(chatMessage);
                                 }

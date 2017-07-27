@@ -1,28 +1,27 @@
 package hello;
 
 public class ChatMessage {
-    private String name;
     private String content;
-    private String idToken;
-    private boolean currentUsersGreeting;
+    private User user;
+    private boolean currentUsersMessage;
     //Todo: idToken and name exist in user object greeting should reference user instead!
 
     public ChatMessage() {
     }
 
     public ChatMessage(String name, String content, String idToken, boolean currentUsersGreeting) {
-        this.name = name;
+        this.user.setName(name);
+        this.user.setIdToken(idToken);
         this.content = content;
-        this.idToken = idToken;
-        this.currentUsersGreeting = currentUsersGreeting;
+        this.currentUsersMessage = currentUsersGreeting;
     }
 
     public String getName() {
-        return name;
+        return user.getName();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.user.setName(name);
     }
 
     public String getContent() {
@@ -34,18 +33,18 @@ public class ChatMessage {
     }
 
     public String getIdToken() {
-        return idToken;
+        return this.user.getIdToken();
     }
 
     public void setIdToken(String idToken) {
-        this.idToken = idToken;
+        this.user.setIdToken(idToken);
     }
 
-    public boolean isCurrentUsersGreeting() {
-        return currentUsersGreeting;
+    public boolean isCurrentUsersMessage() {
+        return currentUsersMessage;
     }
 
-    public void setCurrentUsersGreeting(boolean currentUsersGreeting) {
-        this.currentUsersGreeting = currentUsersGreeting;
+    public void setCurrentUsersMessage(boolean currentUsersMessage) {
+        this.currentUsersMessage = currentUsersMessage;
     }
 }

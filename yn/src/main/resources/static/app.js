@@ -2,7 +2,7 @@ var stompClient = null;
 
 function connect() {
     //tells stomp.js to shut up in the console.
-    stompClient.debug = null
+    //stompClient.debug = null
 
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
@@ -39,10 +39,10 @@ function clearChatList(){
     $("#greetings").empty();
 }
 function showGreeting(obj) {
-    $("#greetings").append("<tr><td>" + obj.name + ": " + " Content: "+obj.content + "</td></tr>");
+    $("#greetings").append("<tr><td>" +obj.name + ": " + " Content: "+obj.content + "</td></tr>");
 }
 function showYourGreeting(obj) {
-    $("#greetings").append("<tr class='myChatMessage'><td>" + "You: " + obj.content + "</td></tr>");
+    $("#greetings").append("<tr class='myChatMessage'><td>" + obj.content + " /you" + "</td></tr>");
 }
 
 $(function () {
