@@ -35,7 +35,12 @@ public class MessageController {
 
     @GetMapping("/")
     public String start(Model model){
-        model.addAttribute("chatmessage", new ChatMessage());
+
+        return "index";
+    }
+    @GetMapping("/in")
+    public String checkIfLoggedIn(Model model){
+
         return "index";
     }
 
