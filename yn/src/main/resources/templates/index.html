@@ -16,8 +16,8 @@
     <button id="logoutButton" class="btn btn-default" type="submit" value="Submit">logout</button>
     <div class="row">
         <div class="col-md-6">
-            <form action="#" th:action="@{/}" th:object="${chatmessage}" method="post">
-                <p>Message: <input id="dbContent" type="text" th:field="*{content}" /></p>
+            <form action="#" th:action="@{/}" method="post">
+                <p>Message: <input id="dbContent" type="text" /></p>
                 <p><button id="saveDB" class="btn btn-default" type="submit" value="Submit">Send</button></p>
             </form>
         </div>
