@@ -12,7 +12,11 @@ function firebaseGmailLogin(){
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         // User is signed in.
-        user.getIdToken(true).then(function(idToken){console.log(idToken)});
+        user.getIdToken(true).then(function(idToken){
+            window.location.href=`/in?idToken=${idToken}`;
+        });
+
+
       } else {
         // No user is signed in.
         firebase.auth().signInWithRedirect(provider).then(function(result) {
@@ -33,6 +37,6 @@ function firebaseGmailLogin(){
                         });
       }
     });
-
-
-window.onload = firebaseGmailLogin();
+}
+(() => firebaseGmailLogin())();
+//window.onload = firebaseGmailLogin();

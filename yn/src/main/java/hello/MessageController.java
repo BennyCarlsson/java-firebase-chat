@@ -12,6 +12,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,12 +39,21 @@ public class MessageController {
 
         return "index";
     }
+
     @GetMapping("/in")
-    public String checkIfLoggedIn(Model model){
-
-        return "index";
+    public String checkIfLoggedIn(Model model, @RequestParam(value = "idToken", required = false) String idToken){
+        if(idToken != null){
+            if(checkIdToken(idToken))
+                return "index";
+        }
+        return "login";
     }
-
+    private boolean checkIdToken(String idToken){
+        Task<FirebaseToken> authTask = FirebaseAuth.getInstance().verifyIdToken(idToken);
+        try {Tasks.await(authTask);}
+        catch(ExecutionException | InterruptedException e ){ System.out.print(e);}
+        return authTask.isSuccessful();
+    }
     @MessageMapping("/saveDB")
     public void saveDB(ChatMessage chatMessage) throws IOException {
         //chatMessage now have the idToken use this to get username and uid
