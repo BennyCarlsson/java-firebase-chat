@@ -13,7 +13,7 @@ function firebaseGmailLogin(){
       if (user) {
         // User is signed in.
         user.getIdToken(true).then(function(idToken){
-            window.location.href=`/in?idToken=${idToken}`;
+            window.location.href=`/?idToken=${idToken}`;
         });
 
 

@@ -35,20 +35,16 @@ public class MessageController {
     }
 
     @GetMapping("/")
-    public String start(Model model){
-
-        return "index";
-    }
-
-    @GetMapping("/in")
     public String checkIfLoggedIn(Model model, @RequestParam(value = "idToken", required = false) String idToken){
-        if(idToken != null){
-            if(checkIdToken(idToken))
-                return "index";
+        if(checkIdToken(idToken)){
+            return "index";
         }
         return "login";
     }
     private boolean checkIdToken(String idToken){
+        if(idToken == null){
+            return false;
+        }
         Task<FirebaseToken> authTask = FirebaseAuth.getInstance().verifyIdToken(idToken);
         try {Tasks.await(authTask);}
         catch(ExecutionException | InterruptedException e ){ System.out.print(e);}
